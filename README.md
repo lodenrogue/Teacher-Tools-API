@@ -6,6 +6,7 @@ REST API for creating tools to assist teachers
 
 ## How to use
 1. [Teachers](#teachers)
+    1. [Create](#create-a-teacher)
 
 
 ### Teachers
