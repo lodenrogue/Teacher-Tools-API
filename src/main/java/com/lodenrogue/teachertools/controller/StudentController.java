@@ -76,6 +76,13 @@ public class StudentController {
 		}
 	}
 
+	/**
+	 * Update student matching the path id
+	 * 
+	 * @param id
+	 * @param student
+	 * @return
+	 */
 	@RequestMapping(path = "/students/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Object> updateStudent(@PathVariable long id, @RequestBody Student student) {
 
@@ -110,12 +117,24 @@ public class StudentController {
 		}
 	}
 
+	/**
+	 * Delete student matching the path id
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping(path = "/students/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteStudent(@PathVariable long id) {
 		new StudentFacade().delete(id);
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
+	/**
+	 * Create and return a list containing any missing fields
+	 * 
+	 * @param student
+	 * @return
+	 */
 	private List<String> getMissingFields(Student student) {
 		List<String> missingFields = new ArrayList<String>();
 		if (student.getFirstName() == null) missingFields.add("firstName");
@@ -136,5 +155,4 @@ public class StudentController {
 		ResponseEntity<Object> response = new ResponseEntity<Object>(msg, status);
 		return response;
 	}
-
 }
