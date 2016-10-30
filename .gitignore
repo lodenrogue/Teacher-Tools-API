@@ -1,0 +1,12 @@
+
+.classpath
+
+.project
+
+.settings/*
+
+.springBeans
+
+src/main/resources/hibernate.cfg.xml
+
+target/*
