@@ -9,12 +9,13 @@ REST API for creating tools to assist teachers
     1. [Create](#create-a-teacher)
     2. [Get](#get-a-teacher)
     3. [Update](#update-a-teacher)
+    4. [Get Groups](#get-teacher-groups)
 
 ===
 
-### Teachers
+## Teachers
 
-#### Create a teacher
+### Create a teacher
 POST: /api/v1/teachers
 
 ~~~
@@ -69,7 +70,7 @@ Definitions:
 
 ===
 
-#### Get a teacher
+### Get a teacher
 GET: /api/v1/teachers/{id}
 
 #### Expected output
@@ -107,7 +108,7 @@ Definitions:
 
 ===
 
-#### Update a teacher
+### Update a teacher
 PUT: /api/v1/teachers/{id}
 
 ~~~
@@ -161,5 +162,42 @@ Definitions:
     "lastName",
     "createdDate"
   ]
+}
+~~~
+
+===
+
+### Get teacher groups
+GET: /api/v1/teachers/{id}/groups
+
+#### Expected output
+
+##### Status: 200 OK
+
+~~~
+[
+  {
+    "teacherId": 1,
+    "name": "Cool kids",
+    "createdDate": 1477840092000,
+    "modifiedDate": 1477841480000,
+    "id": 1
+  },
+  {
+    "teacherId": 1,
+    "name": "Breakfast Club",
+    "createdDate": 1477843038000,
+    "modifiedDate": null,
+    "id": 3
+  },
+  ...
+]
+~~~
+
+##### Status: 404 NOT FOUND
+
+~~~
+{
+  "message": "No teacher with id 13 found"
 }
 ~~~
