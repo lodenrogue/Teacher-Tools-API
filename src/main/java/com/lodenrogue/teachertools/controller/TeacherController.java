@@ -67,7 +67,7 @@ public class TeacherController {
 
 		// Check if teacher exists
 		if (teacher == null) {
-			return createNotFound(id);
+			return notFound(id);
 		}
 
 		// Return teacher
@@ -91,7 +91,7 @@ public class TeacherController {
 		// Check that teacher with that id exists
 		Teacher existing = new TeacherFacade().find(id);
 		if (existing == null) {
-			return createNotFound(id);
+			return notFound(id);
 		}
 
 		// Get missing fields
@@ -128,8 +128,7 @@ public class TeacherController {
 	@RequestMapping(path = "/teachers/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> deleteTeacher(@PathVariable long id) {
 		new TeacherFacade().delete(id);
-		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
-		return response;
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
 	@RequestMapping(path = "/teachers/{id}/groups", method = RequestMethod.GET)
@@ -138,7 +137,7 @@ public class TeacherController {
 		// Check that teacher exists
 		Teacher teacher = new TeacherFacade().find(id);
 		if (teacher == null) {
-			return createNotFound(id);
+			return notFound(id);
 		}
 		else {
 			List<Group> groups = new GroupFacade().findAllByTeacher(id);
@@ -161,7 +160,14 @@ public class TeacherController {
 		return missingFields;
 	}
 
-	private ResponseEntity<Object> createNotFound(long id) {
+	/**
+	 * Create and return a response entity to let the user know a resource
+	 * with this id was not found
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private ResponseEntity<Object> notFound(long id) {
 		ErrorMessage msg = new ErrorMessage("No teacher with id " + id + " found");
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ResponseEntity<Object> response = new ResponseEntity<Object>(msg, status);
