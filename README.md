@@ -7,6 +7,7 @@ REST API for creating tools to assist teachers
 ## How to use
 1. [Teachers](#teachers)
     1. [Create](#create-a-teacher)
+    2. [Get](#get-a-teacher)
 
 
 ### Teachers
@@ -31,7 +32,7 @@ Definitions:
 
 #### Expected output
 
-Status: 201 CREATED
+##### Status: 201 CREATED
 
 ~~~
 {
@@ -52,3 +53,41 @@ Definitions:
 | lastName     | String   | The teacher's last name                  |
 | createdDate  | DateTime | The datetime this resource was created   |
 | modifiedDate | DateTime | The date time this resource was modified |
+
+===
+
+#### Get a teacher
+GET: /api/v1/teachers/{id}
+
+#### Expected output
+
+##### Status: 200 OK
+
+~~~
+{
+  "id": 3,
+  "firstName": "John",
+  "lastName": "Smith",
+  "createdDate": 1477845792394,
+  "modifiedDate": null
+}
+~~~
+
+Definitions:
+
+| Key          | Type     | Definition                               |
+|--------------|----------|------------------------------------------|
+| id           | Integer  | The teacher's resource id                |
+| firstName    | String   | The teacher's first name                 |
+| lastName     | String   | The teacher's last name                  |
+| createdDate  | DateTime | The datetime this resource was created   |
+| modifiedDate | DateTime | The date time this resource was modified |
+
+
+##### Status: 404 NOT FOUND
+
+~~~
+{
+  "message": "No teacher with id 2 found"
+}
+~~~
