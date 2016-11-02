@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.lodenrogue.teachertools.error.MissingFieldsError;
 import com.lodenrogue.teachertools.model.Student;
 import com.lodenrogue.teachertools.service.StudentFacade;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
 public class StudentController {
@@ -65,7 +67,7 @@ public class StudentController {
 
 		// Check if student exists
 		if (student == null) {
-			return notFound(id);
+			return createNotFound(id);
 		}
 
 		// Return student
@@ -74,6 +76,18 @@ public class StudentController {
 			ResponseEntity<Object> response = new ResponseEntity<Object>(student, status);
 			return response;
 		}
+	}
+
+	/**
+	 * Returns a list of all students
+	 * 
+	 * @return
+	 */
+	@RequestMapping(path = "/students", method = RequestMethod.GET)
+	public ResponseEntity<Object> getAllStudents() {
+		List<Student> students = new StudentFacade().findAll();
+		HttpStatus status = HttpStatus.OK;
+		return new ResponseEntity<Object>(students, status);
 	}
 
 	/**
@@ -89,7 +103,7 @@ public class StudentController {
 		// Check that student with that id exists
 		Student existing = new StudentFacade().find(id);
 		if (existing == null) {
-			return notFound(id);
+			return createNotFound(id);
 		}
 
 		// Get missing fields
@@ -149,7 +163,7 @@ public class StudentController {
 	 * @param id
 	 * @return
 	 */
-	private ResponseEntity<Object> notFound(long id) {
+	private ResponseEntity<Object> createNotFound(long id) {
 		ErrorMessage msg = new ErrorMessage("No student with id " + id + " found");
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		ResponseEntity<Object> response = new ResponseEntity<Object>(msg, status);
