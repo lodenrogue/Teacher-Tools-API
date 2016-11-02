@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lodenrogue.teachertools.error.ErrorMessage;
 import com.lodenrogue.teachertools.error.MissingFieldsError;
 import com.lodenrogue.teachertools.model.Group;
+import com.lodenrogue.teachertools.model.Student;
 import com.lodenrogue.teachertools.model.Teacher;
 import com.lodenrogue.teachertools.service.GroupFacade;
+import com.lodenrogue.teachertools.service.RegistrationFacade;
 import com.lodenrogue.teachertools.service.TeacherFacade;
 
 @CrossOrigin
@@ -76,10 +78,7 @@ public class GroupController {
 
 		// Check if group exists
 		if (group == null) {
-			ErrorMessage msg = new ErrorMessage("No group with id " + id + " found");
-			HttpStatus status = HttpStatus.NOT_FOUND;
-			ResponseEntity<Object> response = new ResponseEntity<Object>(msg, status);
-			return response;
+			return createNotFound(id);
 		}
 
 		// Return group
@@ -153,6 +152,40 @@ public class GroupController {
 		new GroupFacade().delete(id);
 		ResponseEntity<Object> response = new ResponseEntity<Object>(HttpStatus.OK);
 		return response;
+	}
+
+	/**
+	 * Returns a list of students registered to the group matching the given
+	 * id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(path = "/groups/{id}/students", method = RequestMethod.GET)
+	public ResponseEntity<Object> getStudents(@PathVariable long id) {
+
+		// Check that the group exists
+		Group existing = new GroupFacade().find(id);
+		if (existing == null) {
+			return createNotFound(id);
+		}
+		else {
+			List<Student> students = new RegistrationFacade().findStudentsByGroup(id);
+			HttpStatus status = HttpStatus.OK;
+			return new ResponseEntity<Object>(students, status);
+		}
+	}
+
+	/**
+	 * Creates and returns a 404 not found response
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private ResponseEntity<Object> createNotFound(long id) {
+		ErrorMessage msg = new ErrorMessage("No group with id " + id + " found");
+		HttpStatus status = HttpStatus.NOT_FOUND;
+		return new ResponseEntity<Object>(msg, status);
 	}
 
 	private List<String> getMissingFields(Group group) {
