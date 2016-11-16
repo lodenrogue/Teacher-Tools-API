@@ -20,9 +20,12 @@ import com.lodenrogue.teachertools.model.Teacher;
 import com.lodenrogue.teachertools.service.GroupFacade;
 import com.lodenrogue.teachertools.service.TeacherFacade;
 
+import io.swagger.annotations.Api;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
+@Api(value="Teachers")
 public class TeacherController {
 
 	/**
@@ -147,6 +150,12 @@ public class TeacherController {
 			ResponseEntity<Object> response = new ResponseEntity<Object>(groups, status);
 			return response;
 		}
+	}
+
+	@RequestMapping(path = "/teachers", method = RequestMethod.GET)
+	public ResponseEntity<Object> getAllTeachers() {
+		List<Teacher> teachers = new TeacherFacade().findAll();
+		return new ResponseEntity<Object>(teachers, HttpStatus.OK);
 	}
 
 	/**

@@ -22,9 +22,12 @@ import com.lodenrogue.teachertools.service.GroupFacade;
 import com.lodenrogue.teachertools.service.RegistrationFacade;
 import com.lodenrogue.teachertools.service.StudentFacade;
 
+import io.swagger.annotations.Api;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
+@Api(value="Registrations")
 public class RegistrationController {
 
 	/**

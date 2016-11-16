@@ -18,9 +18,12 @@ import com.lodenrogue.teachertools.error.MissingFieldsError;
 import com.lodenrogue.teachertools.model.Student;
 import com.lodenrogue.teachertools.service.StudentFacade;
 
+import io.swagger.annotations.Api;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1")
+@Api(value="Students")
 public class StudentController {
 
 	/**
